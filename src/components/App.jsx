@@ -1,3 +1,10 @@
+import { Layout } from './Layout.js';
+import { GlobalStyle } from './GlobalStyle.js';
+//*** */
+import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions.jsx';
+import { Statistics } from './Statistics/Statistics.jsx';
+import { Notification } from './Notification/Notification.jsx';
+//*** */
 import { Component } from 'react';
 
 export class App extends Component {
@@ -7,26 +14,37 @@ export class App extends Component {
     bad: 0,
   };
 
-  countGood = () => {
-    this.setState(prevState => {
-      return {
-        good: prevState.good + 1,
-      };
-    });
-  };
+  //*** I METHOD */
+  // countGood = () => {
+  //   this.setState(prevState => {
+  //     return {
+  //       good: prevState.good + 1,
+  //     };
+  //   });
+  // };
 
-  countNeutral = () => {
-    this.setState(prevState => {
-      return {
-        neutral: prevState.neutral + 1,
-      };
-    });
-  };
+  // countNeutral = () => {
+  //   this.setState(prevState => {
+  //     return {
+  //       neutral: prevState.neutral + 1,
+  //     };
+  //   });
+  // };
 
-  countBad = () => {
+  // countBad = () => {
+  //   this.setState(prevState => {
+  //     return {
+  //       bad: prevState.bad + 1,
+  //     };
+  //   });
+  // };
+
+  //*** */
+
+  count = feedback => {
     this.setState(prevState => {
       return {
-        bad: prevState.bad + 1,
+        [feedback]: prevState[feedback] + 1,
       };
     });
   };
@@ -35,24 +53,28 @@ export class App extends Component {
 
   countTotalFeedback = () => {
     let total = Object.values(this.state).reduce((a, b) => a + b);
-
-    console.log(total);
+    //console.log(total);
     return total;
   };
 
   //**** */
   countPositiveFeedbackPercentage = () => {
-    // let positive = Math.round((this.countGood * 100) / this.countTotalFeedback);
-    // console.log(positive);
-    // return positive;
+    let positive = Math.round(
+      (this.state.good * 100) / this.countTotalFeedback()
+    );
+    //console.log(positive);
+    return positive;
   };
 
   render() {
-    const { total, positive } = this.props;
+    const feedback = ['good', 'neutral', 'bad'];
+
     return (
-      <div>
+      <Layout>
         <h1>Please leave feedback</h1>
-        <button type="button" onClick={this.countGood}>
+        <FeedbackOptions options={feedback} onLeaveFeedback={this.count} />
+
+        {/* <button type="button" onClick={this.countGood}>
           Good
         </button>
         <button type="button" onClick={this.countNeutral}>
@@ -60,18 +82,25 @@ export class App extends Component {
         </button>
         <button type="button" onClick={this.countBad}>
           Bad
-        </button>
-        <ul>
-          Statistics
-          <li>Good:{this.state.good}</li>
-          <li>Neutral: {this.state.neutral}</li>
-          <li>Bad: {this.state.bad}</li>
-          <li total={this.countTotalFeedback()}>Total:{total}</li>
-          <li positive={this.countPositiveFeedbackPercentage()}>
-            Positive feedback:{positive} %
-          </li>
-        </ul>
-      </div>
+        </button> */}
+
+        <h2>Statistics</h2>
+        {this.state.good === 0 &&
+        this.state.neutral === 0 &&
+        this.state.bad === 0 ? (
+          <Notification message="There is no feedback" />
+        ) : (
+          <Statistics
+            good={this.state.good}
+            neutral={this.state.neutral}
+            bad={this.state.bad}
+            total={this.countTotalFeedback()}
+            positivePercentage={this.countPositiveFeedbackPercentage()}
+          />
+        )}
+
+        <GlobalStyle />
+      </Layout>
     );
   }
 }
