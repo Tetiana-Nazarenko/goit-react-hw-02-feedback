@@ -4,6 +4,7 @@ import { GlobalStyle } from './GlobalStyle.js';
 import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions.jsx';
 import { Statistics } from './Statistics/Statistics.jsx';
 import { Notification } from './Notification/Notification.jsx';
+import { Section } from './Section/Section.jsx';
 //*** */
 import { Component } from 'react';
 
@@ -71,9 +72,9 @@ export class App extends Component {
 
     return (
       <Layout>
-        <h1>Please leave feedback</h1>
-        <FeedbackOptions options={feedback} onLeaveFeedback={this.count} />
-
+        <Section title="Please leave feedback">
+          <FeedbackOptions options={feedback} onLeaveFeedback={this.count} />
+        </Section>
         {/* <button type="button" onClick={this.countGood}>
           Good
         </button>
@@ -84,21 +85,21 @@ export class App extends Component {
           Bad
         </button> */}
 
-        <h2>Statistics</h2>
-        {this.state.good === 0 &&
-        this.state.neutral === 0 &&
-        this.state.bad === 0 ? (
-          <Notification message="There is no feedback" />
-        ) : (
-          <Statistics
-            good={this.state.good}
-            neutral={this.state.neutral}
-            bad={this.state.bad}
-            total={this.countTotalFeedback()}
-            positivePercentage={this.countPositiveFeedbackPercentage()}
-          />
-        )}
-
+        <Section title="Statistics ">
+          {this.state.good === 0 &&
+          this.state.neutral === 0 &&
+          this.state.bad === 0 ? (
+            <Notification message="There is no feedback" />
+          ) : (
+            <Statistics
+              good={this.state.good}
+              neutral={this.state.neutral}
+              bad={this.state.bad}
+              total={this.countTotalFeedback()}
+              positivePercentage={this.countPositiveFeedbackPercentage()}
+            />
+          )}{' '}
+        </Section>
         <GlobalStyle />
       </Layout>
     );

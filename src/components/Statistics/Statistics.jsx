@@ -1,6 +1,8 @@
 //import { type } from '@testing-library/user-event/dist/type';
 import PropTypes from 'prop-types';
 
+import { StaticticsList, StaticticsItem } from './Statistics.styled';
+
 export const Statistics = ({
   good,
   neutral,
@@ -9,16 +11,15 @@ export const Statistics = ({
   positivePercentage,
 }) => {
   return (
-    <ul>
-      <li>Good:{good}</li>
-      <li>Neutral: {neutral}</li>
-      <li>Bad: {bad}</li>
-      <li>Total:{total}</li>
-      <li>
-        Positive feedback:
-        {positivePercentage} %
-      </li>
-    </ul>
+    <StaticticsList>
+      <StaticticsItem>Good: {good}</StaticticsItem>
+      <StaticticsItem>Neutral: {neutral}</StaticticsItem>
+      <StaticticsItem>Bad: {bad}</StaticticsItem>
+      <StaticticsItem>Total: {total}</StaticticsItem>
+      <StaticticsItem>
+        Positive feedback: {positivePercentage} %{' '}
+      </StaticticsItem>
+    </StaticticsList>
   );
 };
 
